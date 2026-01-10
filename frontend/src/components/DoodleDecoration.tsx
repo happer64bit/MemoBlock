@@ -1,7 +1,6 @@
 const DoodleDecorations = () => {
   return (
     <>
-      {/* Top left doodle - star */}
       <svg
         className="absolute left-8 top-16 h-16 w-16 animate-wiggle text-doodle-line opacity-60 md:left-16 md:h-24 md:w-24"
         viewBox="0 0 100 100"
@@ -51,7 +50,6 @@ const DoodleDecorations = () => {
         <line x1="82" y1="28" x2="82" y2="53" />
       </svg>
 
-      {/* Bottom right doodle - brain/puzzle */}
       <svg
         className="absolute bottom-24 right-8 h-16 w-16 animate-wiggle text-doodle-line opacity-50 md:right-16 md:h-24 md:w-24"
         viewBox="0 0 100 100"
