@@ -1,9 +1,16 @@
 {
   "name": "backend",
   "module": "index.ts",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "start": "tsx src/index.ts",
+    "build": "tsc --outDir dist --noEmit false",
+    "typecheck": "tsc --noEmit"
+  },
   "dependencies": {
     "colyseus": "^0.16.5",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "@colyseus/ws-transport": "^0.16.5"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -11,6 +18,8 @@
   "private": true,
   "type": "module",
   "devDependencies": {
-    "@types/express": "^5.0.6"
+    "@types/express": "^5.0.6",
+    "tsx": "^4.7.0",
+    "typescript": "^5.9.3"
   }
 }
