@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, forwardRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface DoodleButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "outline";
+  variant?: "primary" | "secondary" | "outline-solid";
   size?: "default" | "lg";
 }
 
@@ -18,7 +18,7 @@ const DoodleButton = forwardRef<HTMLButtonElement, DoodleButtonProps>(
           {
             "bg-primary text-primary-foreground": variant === "primary",
             "bg-secondary text-secondary-foreground": variant === "secondary",
-            "bg-transparent text-foreground": variant === "outline",
+            "bg-transparent text-foreground": variant === "outline-solid",
           },
           {
             "px-6 py-3 text-lg": size === "default",
