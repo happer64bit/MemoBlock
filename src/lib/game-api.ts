@@ -11,9 +11,6 @@ export const gameApi = {
    * @param density Probability of a spot appearing in a cell (0-1)
    */
   generateGrid: async (n: number, density: number = 0.3): Promise<GameGridData> => {
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
     const grid: boolean[][] = [];
     let totalSpots = 0;
 
