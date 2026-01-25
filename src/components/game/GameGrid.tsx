@@ -1,13 +1,37 @@
+import { useMemo } from "react";
+import { cn } from "@/lib/utils";
+
 interface GameGridProps {
   rows?: number;
   cols?: number;
   highlightedCell?: { row: number; col: number } | null;
+  grid?: boolean[][] | null;
+  showSpots?: boolean;
 }
 
-const GameGrid = ({ rows = 6, cols = 6, highlightedCell = null }: GameGridProps) => {
+const GameGrid = ({ 
+  rows = 3, 
+  cols = 3, 
+  highlightedCell = null,
+  grid = null,
+  showSpots = false
+}: GameGridProps) => {
+  // Use grid dimensions if grid is provided, otherwise fallback to props
+  const effectiveRows = grid ? grid.length : rows;
+  const effectiveCols = grid && grid[0] ? grid[0].length : cols;
+
+  // Calculate cell size class based on grid density to keep it responsive
+  // For larger grids, we want smaller cells
+  const cellSizeClass = useMemo(() => {
+    const maxDim = Math.max(effectiveRows, effectiveCols);
+    if (maxDim > 8) return "h-8 w-8 md:h-10 md:w-10";
+    if (maxDim > 6) return "h-10 w-10 md:h-12 md:w-12";
+    return "h-12 w-12 md:h-16 md:w-16";
+  }, [effectiveRows, effectiveCols]);
+
   return (
     <div 
-      className="relative mx-auto"
+      className="relative mx-auto transition-all duration-500 ease-in-out"
       style={{
         perspective: "1000px",
         perspectiveOrigin: "50% 40%",
@@ -15,42 +39,51 @@ const GameGrid = ({ rows = 6, cols = 6, highlightedCell = null }: GameGridProps)
     >
       {/* 3D Grid container */}
       <div
-        className="grid gap-0 border-2 border-doodle-line bg-card"
+        className="grid gap-1 border-2 border-doodle-line bg-card p-1"
         style={{
-          gridTemplateColumns: `repeat(${cols}, 1fr)`,
-          transform: "rotateX(15deg) rotateY(0deg)",
+          gridTemplateColumns: `repeat(${effectiveCols}, min-content)`,
+          transform: "rotateX(10deg) rotateY(0deg)",
           transformStyle: "preserve-3d",
-          borderRadius: "4px 8px 6px 10px",
-          boxShadow: "8px 12px 0 hsl(var(--doodle-line) / 0.3)",
+          borderRadius: "8px",
+          boxShadow: "0 10px 0 hsl(var(--doodle-line) / 0.2)",
         }}
       >
-        {Array.from({ length: rows * cols }).map((_, index) => {
-          const row = Math.floor(index / cols);
-          const col = index % cols;
+        {Array.from({ length: effectiveRows * effectiveCols }).map((_, index) => {
+          const row = Math.floor(index / effectiveCols);
+          const col = index % effectiveCols;
           const isHighlighted = highlightedCell?.row === row && highlightedCell?.col === col;
+          
+          // Check if this cell has a spot (if grid is provided)
+          const hasSpot = grid && grid[row] && grid[row][col];
+          const shouldShowSpot = hasSpot && showSpots;
 
           return (
             <div
               key={index}
-              className={`
-                flex h-12 w-12 items-center justify-center border border-doodle-line/40
-                transition-all duration-300 md:h-14 md:w-14 lg:h-16 lg:w-16
-                ${isHighlighted ? "bg-primary" : "bg-card hover:bg-secondary/50"}
-              `}
+              className={cn(
+                "relative flex items-center justify-center border-2 border-doodle-line/20 rounded-md bg-background",
+                "transition-all duration-300",
+                cellSizeClass,
+                isHighlighted && "border-primary bg-primary/10",
+                "hover:border-doodle-line/60"
+              )}
               style={{
                 transformStyle: "preserve-3d",
               }}
-            />
+            >
+              {shouldShowSpot && (
+                 <div className="absolute inset-2 rounded-full bg-primary animate-in zoom-in duration-300 shadow-sm" />
+              )}
+            </div>
           );
         })}
       </div>
 
-      {/* 3D shadow effect */}
+      {/* 3D shadow effect base */}
       <div
-        className="absolute inset-0 -z-10 bg-doodle-line/10"
+        className="absolute inset-0 -z-10 bg-doodle-line/5 rounded-lg"
         style={{
-          transform: "rotateX(15deg) translateZ(-10px) translateY(10px)",
-          borderRadius: "4px 8px 6px 10px",
+          transform: "rotateX(10deg) translateZ(-10px) translateY(10px)",
         }}
       />
     </div>
