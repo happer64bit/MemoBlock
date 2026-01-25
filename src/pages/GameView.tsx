@@ -7,7 +7,9 @@ const GameView = () => {
   const mockState = {
     phase: "remember" as const,
     currentNumber: 1,
-    highlightedCell: { row: 2, col: 3 },
+    highlightedCell: [[true, false, false],
+    [false, true, false],
+    [false, false, false]],
     players: [
       {
         username: "user1",
@@ -33,10 +35,10 @@ const GameView = () => {
 
       {/* Main game area */}
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-8">
-        <GameGrid 
-          rows={6} 
-          cols={6} 
-          highlightedCell={mockState.highlightedCell}
+        <GameGrid
+          rows={3}
+          cols={3}
+          highlightedCells={mockState.highlightedCell}
         />
       </div>
 
