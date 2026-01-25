@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 interface GameGridProps {
   rows?: number;
   cols?: number;
-  highlightedCell?: { row: number; col: number } | null;
+  highlightedCells?: boolean[][];
   grid?: boolean[][] | null;
   showSpots?: boolean;
 }
@@ -12,7 +12,7 @@ interface GameGridProps {
 const GameGrid = ({ 
   rows = 3, 
   cols = 3, 
-  highlightedCell = null,
+  highlightedCells = undefined,
   grid = null,
   showSpots = false
 }: GameGridProps) => {
@@ -51,7 +51,9 @@ const GameGrid = ({
         {Array.from({ length: effectiveRows * effectiveCols }).map((_, index) => {
           const row = Math.floor(index / effectiveCols);
           const col = index % effectiveCols;
-          const isHighlighted = highlightedCell?.row === row && highlightedCell?.col === col;
+          
+          // Check if this cell is highlighted using the matrix
+          const isHighlighted = highlightedCells && highlightedCells[row] && highlightedCells[row][col];
           
           // Check if this cell has a spot (if grid is provided)
           const hasSpot = grid && grid[row] && grid[row][col];
@@ -64,7 +66,7 @@ const GameGrid = ({
                 "relative flex items-center justify-center border-2 border-doodle-line/20 rounded-md bg-background",
                 "transition-all duration-300",
                 cellSizeClass,
-                isHighlighted && "border-primary bg-primary/10",
+                isHighlighted && "border-primary bg-primary",
                 "hover:border-doodle-line/60"
               )}
               style={{
