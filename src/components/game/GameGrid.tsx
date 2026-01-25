@@ -74,7 +74,7 @@ const GameGrid = ({
               }}
             >
               {shouldShowSpot && (
-                 <div className="absolute inset-2 rounded-full bg-primary animate-in zoom-in duration-300 shadow-sm" />
+                 <div className="absolute inset-2 rounded-full bg-primary animate-in zoom-in duration-300 shadow-xs" />
               )}
             </div>
           );
