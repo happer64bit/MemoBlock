@@ -11,7 +11,7 @@ const DoodleInput = forwardRef<HTMLInputElement, DoodleInputProps>(
         className={cn(
           "w-full bg-card px-4 py-3 font-body text-lg text-foreground placeholder:text-muted-foreground",
           "doodle-border-thin",
-          "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
+          "focus:outline-hidden focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background",
           "transition-all duration-200",
           className
         )}
